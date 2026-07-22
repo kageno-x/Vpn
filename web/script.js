@@ -3,8 +3,8 @@ const SUPPORT_BOT_URL = APP_CONFIG.SUPPORT_BOT_URL || "";
 
 const SUBSCRIPTION_HOST = window.location.origin;
 const BOT_URL = APP_CONFIG.MAIN_BOT_URL || window.location.origin;
-const SITE_NAME = APP_CONFIG.SITE_NAME || "Via";
-const SITE_FULL = APP_CONFIG.SITE_FULL || "ViaVpn";
+const SITE_NAME = APP_CONFIG.SITE_NAME || "Vpn";
+const SITE_FULL = APP_CONFIG.SITE_FULL || "VpnVpn";
 const $ = (s) => document.querySelector(s);
 
 document.addEventListener('DOMContentLoaded', () => {
