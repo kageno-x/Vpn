@@ -18,11 +18,22 @@ services:
         volumes:
             - ./:/app
         command: python support.py
+        command: python support.py
     web:
         image: nginx:alpine
         container_name: Via-web
         restart: unless-stopped
+        env_file:
+            - ./qq.env
         volumes:
             - ./web:/usr/share/nginx/html
+            - ./nginx.conf.template:/etc/nginx/templates/default.conf.template:ro
+            - /root/cert/my-via.ru:/etc/nginx/ssl:ro
+        command: >
+            /bin/sh -c "
+            export DOMAIN=$(echo $$DOMAIN | sed -e 's|^https://||' -e 's|^http://||' -e 's|/$$||');
+            /docker-entrypoint.sh nginx -g 'daemon off;'
+            "
         ports:
             - "80:80"
+            - "443:443"
