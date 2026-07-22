@@ -3,7 +3,32 @@ const SUPPORT_BOT_URL = APP_CONFIG.SUPPORT_BOT_URL || "";
 
 const SUBSCRIPTION_HOST = window.location.origin;
 const BOT_URL = APP_CONFIG.MAIN_BOT_URL || window.location.origin;
+const SITE_NAME = APP_CONFIG.SITE_NAME || "Via";
+const SITE_FULL = APP_CONFIG.SITE_FULL || "ViaVpn";
 const $ = (s) => document.querySelector(s);
+
+document.addEventListener('DOMContentLoaded', () => {
+    const logo = document.querySelector('.logo');
+    if (logo && SITE_NAME) {
+        const mark = logo.querySelector('.logo-mark');
+        if (mark) {
+            while (mark.nextSibling) mark.nextSibling.remove();
+            mark.insertAdjacentText('afterend', ' ' + SITE_NAME);
+            logo.setAttribute('aria-label', SITE_NAME);
+        } else {
+            logo.textContent = SITE_NAME;
+        }
+    }
+    if (SITE_FULL) {
+        document.title = SITE_FULL;
+    }
+    const footer = document.querySelector('footer.page.footer');
+    if (footer) {
+        const spans = footer.querySelectorAll('span');
+        if (spans.length > 0) spans[0].textContent = `© ${new Date().getFullYear()} ${SITE_NAME}`;
+        if (spans.length > 1) spans[1].textContent = `${SITE_NAME} • ${SITE_FULL}`;
+    }
+});
 const icons = { ios: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.7 13.4c0-2.5 2-3.7 2.1-3.8-1.2-1.7-3-1.9-3.6-1.9-1.5-.2-3 .9-3.8.9s-2-.9-3.3-.9C5.4 7.7 3 9.3 3 13c0 1.1.2 2.3.7 3.6.7 1.7 1.7 3.6 3.2 3.5.8 0 1.3-.6 2.4-.6 1.1 0 1.6.6 2.5.6 1.5 0 2.4-1.8 3.1-3.5.5-1.2.7-2.4.7-2.4-.1 0-2.9-.8-2.9-3.8zM14.3 6.2c1.2-1.4 1.1-2.7 1.1-3.2-1.1.1-2.3.8-3 1.7-.8.9-1.2 2-1.1 3.1 1.2.1 2.3-.6 3-1.6z"/></svg>', android: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M7.2 9.1 5.8 6.7a.6.6 0 1 1 1-.6l1.5 2.5a9 9 0 0 1 7.4 0l1.5-2.5a.6.6 0 1 1 1 .6l-1.4 2.4A5.3 5.3 0 0 1 20 13.8H4a5.3 5.3 0 0 1 3.2-4.7ZM8.5 12a.7.7 0 1 0 0-1.4.7.7 0 0 0 0 1.4Zm7 0a.7.7 0 1 0 0-1.4.7.7 0 0 0 0 1.4ZM4 15h16v3.1c0 .8-.6 1.4-1.4 1.4H5.4c-.8 0-1.4-.6-1.4-1.4V15Z"/></svg>', windows: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 4.4 10 3v8H3V4.4Zm8 6.6V2.8L21 1v10H11ZM3 12h7v8.9l-7-1.2V12Zm8 0h10v11l-10-1.8V12Z"/></svg>', mac: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.4 12.7c0-2 1.6-3 1.7-3.1-1-1.4-2.5-1.6-3-1.6-1.3-.1-2.5.8-3.1.8-.7 0-1.6-.8-2.7-.8-1.4 0-2.7.8-3.4 2.1-1.5 2.5-.4 6.2 1 8.1.7.9 1.5 1.9 2.6 1.8 1 0 1.4-.7 2.7-.7 1.2 0 1.6.7 2.7.7 1.1 0 1.9-1 2.5-1.9.8-1.1 1.1-2.2 1.1-2.3-.1 0-2.1-.8-2.1-3.1ZM15.3 6.7c.5-.6.9-1.5.8-2.4-.8 0-1.8.5-2.3 1.1-.5.6-.9 1.5-.8 2.3.9.1 1.8-.4 2.3-1Z"/></svg>' };
 const platforms = {
     ios: {
