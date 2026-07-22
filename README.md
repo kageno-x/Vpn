@@ -181,6 +181,7 @@ docker compose up -d --build
 
 ## Контакты
 
-Если нужна помощь с развёртыванием, настройкой или доработкой проекта, можете обратиться:
-
-- Telegram: @kageno_x
+- Telegram: https://t.me/kageno_qq
+- VK: https://vk.com/kageno_gg
+- GitHub: https://github.com/kageno-x
+- Boosty: https://boosty.to/kageno_gg
