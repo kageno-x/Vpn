@@ -22,7 +22,14 @@ services:
         image: nginx:alpine
         container_name: Via-web
         restart: unless-stopped
+        env_file:
+            - ./qq.env
+        environment:
+            - DOMAIN_NAME=$${DOMAIN#*://}
         volumes:
-            - ./web:/usr/share/nginx/html
+          - ./web:/usr/share/nginx/html
+          - ${CERT_PATH}:/etc/nginx/ssl:ro
+          - ./default.conf.template:/etc/nginx/templates/default.conf.template:ro
         ports:
             - "80:80"
+            - "443:443"
