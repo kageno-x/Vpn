@@ -18,3 +18,11 @@ services:
         volumes:
             - ./:/app
         command: python support.py
+    web:
+        image: nginx:alpine
+        container_name: Via-web
+        restart: unless-stopped
+        volumes:
+            - ./web:/usr/share/nginx/html
+        ports:
+            - "80:80"
