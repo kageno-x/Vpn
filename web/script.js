@@ -14,7 +14,7 @@ const platforms = {
             ["Установите Happ", "Откройте App Store и установите приложение Happ."],
             ["Импортируйте подписку", "Нажмите кнопку ниже — Happ откроется с уже подготовленной конфигурацией.", "import"],
             ["Подтвердите VPN-доступ", "Разрешите добавление VPN-конфигурации в системном диалоге."],
-            ["Подключитесь", "Выберите профиль VIA и нажмите кнопку подключения."],
+            ["Подключитесь", "Выберите профиль Via и нажмите кнопку подключения."],
         ],
     },
     android: {
@@ -26,7 +26,7 @@ const platforms = {
             ["Установите Happ", "Скачайте и установите Happ для Android."],
             ["Импортируйте подписку", "Откройте ссылку импорта — приложение добавит конфигурацию.", "import"],
             ["Разрешите VPN", "Подтвердите стандартный системный запрос Android."],
-            ["Подключитесь", "В Happ выберите VIA и включите подключение."],
+            ["Подключитесь", "В Happ выберите Via и включите подключение."],
         ],
     },
     windows: {
@@ -38,7 +38,7 @@ const platforms = {
             ["Скачайте Happ", "Загрузите официальный установщик для Windows.", "download"],
             ["Установите приложение", "Запустите скачанный файл и завершите установку."],
             ["Скопируйте подписку", "Скопируйте ссылку сверху и импортируйте её в Happ.", "copy"],
-            ["Подключитесь", "Выберите профиль VIA и активируйте соединение."],
+            ["Подключитесь", "Выберите профиль Via и активируйте соединение."],
         ],
     },
     mac: {
@@ -50,7 +50,7 @@ const platforms = {
             ["Установите Happ", "Откройте App Store и установите Happ для macOS.", "download"],
             ["Импортируйте подписку", "Нажмите кнопку импорта и подтвердите открытие Happ.", "import"],
             ["Разрешите VPN", "Подтвердите добавление конфигурации в настройках macOS."],
-            ["Подключитесь", "Активируйте профиль VIA в приложении."],
+            ["Подключитесь", "Активируйте профиль Via в приложении."],
         ],
     },
 };
@@ -62,12 +62,12 @@ function art() {
     return '<div class="art-wrap" aria-hidden="true"><div class="signal-art"><i class="ray"></i><i class="ring r1"></i><i class="ring r2"></i><i class="ring r3"></i><i class="planet"></i><i class="star s1"></i><i class="star s2"></i><i class="star s3"></i></div><div class="art-caption">signal field / <b>online</b></div></div>';
 }
 function home() {
-    $("#app").innerHTML = `<section class="home"><div class="home-copy"><div class="badge"><i class="pulse"></i>СЕТЬ ДОСТУПНА</div><p class="kicker">VIA / защищённое соединение</p><h1>Интернет<br>без <em>шума.</em></h1><p>Приватное подключение для тех, кому нужен быстрый и спокойный доступ к сети. Одна подписка — все ваши устройства.</p><a class="primary" href="${BOT_URL}">Получить доступ <span>→</span></a><div class="home-note"><span><i></i>безлимитный трафик</span><span><i></i>подключение за минуту</span><span><i></i>поддержка в Telegram</span></div></div>${art()}</section>`;
+    $("#app").innerHTML = `<section class="home"><div class="home-copy"><div class="badge"><i class="pulse"></i>СЕТЬ ДОСТУПНА</div><p class="kicker">Via / защищённое соединение</p><h1>Интернет<br>без <em>шума.</em></h1><p>Приватное подключение для тех, кому нужен быстрый и спокойный доступ к сети. Одна подписка — все ваши устройства.</p><a class="primary" href="${BOT_URL}">Получить доступ <span>→</span></a><div class="home-note"><span><i></i>безлимитный трафик</span><span><i></i>подключение за минуту</span><span><i></i>поддержка в Telegram</span></div></div>${art()}</section>`;
 }
 function subscription(id) {
     const url = SUBSCRIPTION_HOST + "/subscribe/" + encodeURIComponent(id);
     $("#app").innerHTML =
-        `<section class="subscription"><div class="sub-intro"><div><p class="kicker">Личный кабинет / VIA</p><h1>Подключение<br>готово.</h1></div><p>Добавьте подписку в приложение и пользуйтесь интернетом на любом устройстве.</p></div><div class="dashboard"><div><article class="card connection"><div class="card-eyebrow">Ваша подписка</div><div class="plan-row"><h2>${escapeHtml(id)}</h2><span class="status"><i></i>активна</span></div><div class="readout"><div class="metric"><span>Трафик</span><b>Безлимитный</b></div><div class="metric"><span>Устройства</span><b>Без ограничений</b></div></div><div class="link-area"><div class="link-head"><span class="card-eyebrow">Ссылка подписки</span><button class="copy-button" id="copy-main">Копировать</button></div><div class="subscription-link"><code id="sub-url">${url}</code><button class="copy-square" id="copy-icon" aria-label="Копировать"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button></div></div><div class="connect-actions"><button class="primary" id="choose-device">Настроить устройство</button><button class="secondary" id="copy-secondary">Скопировать ссылку</button></div></article><article class="card setup" id="setup"><div class="setup-head"><span class="card-eyebrow">Выберите устройство</span><span class="mono" id="selected-label" style="font-size:11px;color:var(--muted)">01 / 04</span></div><div class="platforms" id="platforms"></div><div class="steps" id="steps"></div><button class="back" id="back">← Выбрать другое устройство</button></article></div><aside class="sidebar"><article class="card side-card">${art()}<div class="card-eyebrow">Статус сети</div><h3>Сигнал<br>стабилен.</h3><p>Подписка готова к импорту. Выберите своё устройство, чтобы увидеть короткую инструкцию.</p></article><article class="card side-card"><div class="card-eyebrow">Нужна помощь?</div><ul class="help-list"><li><span>Проблема с импортом</span><b>01</b></li><li><span>Не подключается</span><b>02</b></li><li><span>Новая ссылка</span><b>03</b></li></ul><a class="primary support-button" href="${BOT_URL}">Написать в поддержку</a></article></aside></div></section>`;
+        `<section class="subscription"><div class="sub-intro"><div><p class="kicker">Личный кабинет / Via</p><h1>Подключение<br>готово.</h1></div><p>Добавьте подписку в приложение и пользуйтесь интернетом на любом устройстве.</p></div><div class="dashboard"><div><article class="card connection"><div class="card-eyebrow">Ваша подписка</div><div class="plan-row"><h2>${escapeHtml(id)}</h2><span class="status"><i></i>активна</span></div><div class="readout"><div class="metric"><span>Трафик</span><b>Безлимитный</b></div><div class="metric"><span>Устройства</span><b>Без ограничений</b></div></div><div class="link-area"><div class="link-head"><span class="card-eyebrow">Ссылка подписки</span><button class="copy-button" id="copy-main">Копировать</button></div><div class="subscription-link"><code id="sub-url">${url}</code><button class="copy-square" id="copy-icon" aria-label="Копировать"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button></div></div><div class="connect-actions"><button class="primary" id="choose-device">Настроить устройство</button><button class="secondary" id="copy-secondary">Скопировать ссылку</button></div></article><article class="card setup" id="setup"><div class="setup-head"><span class="card-eyebrow">Выберите устройство</span><span class="mono" id="selected-label" style="font-size:11px;color:var(--muted)">01 / 04</span></div><div class="platforms" id="platforms"></div><div class="steps" id="steps"></div><button class="back" id="back">← Выбрать другое устройство</button></article></div><aside class="sidebar"><article class="card side-card">${art()}<div class="card-eyebrow">Статус сети</div><h3>Сигнал<br>стабилен.</h3><p>Подписка готова к импорту. Выберите своё устройство, чтобы увидеть короткую инструкцию.</p></article><article class="card side-card"><div class="card-eyebrow">Нужна помощь?</div><ul class="help-list"><li><span>Проблема с импортом</span><b>01</b></li><li><span>Не подключается</span><b>02</b></li><li><span>Новая ссылка</span><b>03</b></li></ul><a class="primary support-button" href="${BOT_URL}">Написать в поддержку</a></article></aside></div></section>`;
     const copy = () => copyText(url);
     ["copy-main", "copy-icon", "copy-secondary"].forEach((x) => ($("#" + x).onclick = copy));
     $("#choose-device").onclick = () => $("#setup").scrollIntoView({ behavior: "smooth", block: "center" });
@@ -116,13 +116,13 @@ function escapeHtml(v) {
     el.textContent = v;
     return el.innerHTML;
 }
-const saved = localStorage.getItem("via-theme");
+const saved = localStorage.getItem("Via-theme");
 if (saved) document.documentElement.dataset.theme = saved;
 $("#theme").onclick = () => {
     const current = document.documentElement.dataset.theme || "dark";
     const next = current === "light" ? "dark" : "light";
     document.documentElement.dataset.theme = next;
-    localStorage.setItem("via-theme", next);
+    localStorage.setItem("Via-theme", next);
 };
 const token = new URLSearchParams(location.search).get("sub");
 token ? subscription(token) : home();
