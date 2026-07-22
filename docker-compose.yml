@@ -11,7 +11,7 @@ services:
 
     support_bot:
         build: .
-        container_name: Support-bot
+        container_name: support-bot
         restart: unless-stopped
         env_file:
             - ./qq.env
