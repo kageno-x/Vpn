@@ -1,4 +1,4 @@
-const SUPPORT_TELEGRAM = "https://t.me/ВАШ_НИК_БОТА";
+const SUPPORT_TELEGRAM = "https://t.me/BOT_USERNAME";
 
 const SUBSCRIPTION_HOST = window.location.origin;
 const BOT_URL = window.location.origin;
