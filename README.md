@@ -156,7 +156,7 @@ apt update && apt install git -y
 ```
 
 ```bash
-git clone https://github.com/kageno-x/ViaVpn.git ViaVpn
+cd /opt && git clone https://github.com/kageno-x/ViaVpn.git ViaVpn
 ```
 
 ## 7. Подготовка конфигурации
