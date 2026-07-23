@@ -152,7 +152,7 @@ https://YOUR_SERVER:YOUR_PORT/WEB/
 
 ```bash
 apt update && apt install git -y
-git clone https://github.com/kageno-x/Vpn.git Vpn
+git clone https://github.com/kageno-x/ViaVpn.git ViaVpn
 ```
 
 ## 7. Подготовка конфигурации
