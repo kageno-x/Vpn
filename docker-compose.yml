@@ -1,13 +1,13 @@
 services:
-    vpn-bot:
+    via-bot:
         build: .
-        container_name: vpn-bot
+        container_name: via-bot
         restart: unless-stopped
         env_file:
             - ./qq.env
         volumes:
             - ./:/app
-        command: python vpn.py
+        command: python via.py
 
     support_bot:
         build: .
@@ -20,7 +20,7 @@ services:
         command: python support.py
     web:
         image: nginx:alpine
-        container_name: vpn-web
+        container_name: via-web
         restart: unless-stopped
         env_file:
             - ./qq.env
