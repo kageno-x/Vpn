@@ -27,10 +27,15 @@ services:
         volumes:
             - ./web:/usr/share/nginx/html
             - ./nginx.conf.template:/etc/nginx/templates/default.conf.template:ro
-            - /root/cert/my-via.ru:/etc/nginx/ssl:ro
+            - /root/cert:/root/cert:ro
         command: |
             /bin/sh -c "
             export DOMAIN=$(echo $$DOMAIN | sed -e 's|^https://||' -e 's|^http://||' -e 's|/$$||');
+            if [ -d /root/cert/$$DOMAIN ]; then
+                rm -rf /etc/nginx/ssl
+                ln -s /root/cert/$$DOMAIN /etc/nginx/ssl
+            fi
+
             printf 'window.APP_CONFIG = {\n  SUPPORT_BOT_URL: \"%s\",\n  MAIN_BOT_URL: \"%s\"\n};\n' \"$${SUPPORT_BOT_URL}\" \"$${MAIN_BOT_URL}\" > /usr/share/nginx/html/config.js
             exec /docker-entrypoint.sh nginx -g 'daemon off;'
             "
