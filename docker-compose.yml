@@ -31,9 +31,12 @@ services:
         command: |
             /bin/sh -c "
             export DOMAIN=$(echo $$DOMAIN | sed -e 's|^https://||' -e 's|^http://||' -e 's|/$$||');
+            rm -rf /etc/nginx/ssl /etc/nginx/ssl-sub
             if [ -d /root/cert/$$DOMAIN ]; then
-                rm -rf /etc/nginx/ssl
                 ln -s /root/cert/$$DOMAIN /etc/nginx/ssl
+            fi
+            if [ -d /root/cert/sub.$$DOMAIN ]; then
+                ln -s /root/cert/sub.$$DOMAIN /etc/nginx/ssl-sub
             fi
 
             printf 'window.APP_CONFIG = {\n  SUPPORT_BOT_URL: \"%s\",\n  MAIN_BOT_URL: \"%s\"\n};\n' \"$${SUPPORT_BOT_URL}\" \"$${MAIN_BOT_URL}\" > /usr/share/nginx/html/config.js
