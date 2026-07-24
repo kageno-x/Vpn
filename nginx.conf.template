@@ -38,15 +38,13 @@ server {
 
     location / {
         proxy_ssl_verify off;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
 
-        # VPN-клиенты (Happ, v2rayNG и т.п.) обычно не шлют "Mozilla" в User-Agent —
-        # им отдаём настоящую подписку с x-ui. Браузерам — нашу страницу с инструкцией.
         if ($is_browser = 0) {
             proxy_pass https://host.docker.internal:96;
-            proxy_set_header Host $host;
-            proxy_set_header X-Real-IP $remote_addr;
-            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-            proxy_set_header X-Forwarded-Proto $scheme;
         }
 
         root /usr/share/nginx/html;

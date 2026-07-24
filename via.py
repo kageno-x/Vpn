@@ -5,7 +5,7 @@ import logging
 import sqlite3
 import threading
 import html
-import uuid
+import random
 from datetime import datetime
 import urllib.parse
 import aiohttp
@@ -34,7 +34,6 @@ INBOUND_IDS_FALLBACK = [
     int(x.strip()) for x in INBOUND_IDS_ENV.split(",") if x.strip().lstrip("-").isdigit()
 ]
 DOMAIN = os.getenv("DOMAIN")
-WEBSITE_URL = os.getenv("DOMAIN")
 if DOMAIN and "://" in DOMAIN:
     _scheme, _rest = DOMAIN.split("://", 1)
     SUB_DOMAIN = f"{_scheme}://sub.{_rest}"
@@ -264,7 +263,7 @@ def format_expiry(ms: int) -> str:
         return "Ошибка даты"
 
 def get_client_email_by_tg_id(tg_id: int) -> str:
-    return f"id_{tg_id}"
+    return f"{tg_id}"
 
 def get_qr_url(data: str) -> str:
     encoded_data = urllib.parse.quote(data)
@@ -277,7 +276,7 @@ def get_user_display_name(from_user) -> str:
     return html.escape(first_name)
 
 def make_friend_email(inviter_tg_id: int) -> str:
-    return f"inv_{inviter_tg_id}_{uuid.uuid4().hex[:8]}"
+    return f"{inviter_tg_id}_{random.randint(100000, 999999)}"
 
 async def track_user(event_from_user):
     if event_from_user:
@@ -914,7 +913,6 @@ async def process_invite_name(m: Message, state: FSMContext):
 
     sub_id = (friend_client.get("subId") or friend_client.get("id")) if friend_client else friend_email
     vpn_link = f"{SUB_DOMAIN}/{sub_id}"
-    friend_connect_url = f"{SUB_DOMAIN}/{sub_id}"
 
     created_str = datetime.now().strftime("%d.%m.%Y %H:%M")
     await db_add_invite(inviter_id, friend_name, friend_email, vpn_link, created_str)
@@ -932,11 +930,9 @@ async def process_invite_name(m: Message, state: FSMContext):
     result_text = (
         f"<b>Доступ другу создан</b>\n\n"
         f"• Имя: <b>{friend_name}</b>\n\n"
-        f"Передай другу любую из ссылок ниже — подойдёт что удобнее:\n\n"
-        f"Ссылка подписки (для Happ и других клиентов):\n"
-        f"<blockquote><code>{vpn_link}</code></blockquote>\n"
-        f"Ссылка на сайт (откроет инструкцию по подключению):\n"
-        f"<blockquote><code>{friend_connect_url}</code></blockquote>"
+        f"Отправь другу эту ссылку — при открытии в приложении она добавит подписку, "
+        f"а при открытии в браузере покажет инструкцию по подключению:\n\n"
+        f"<blockquote><code>{vpn_link}</code></blockquote>"
     )
     await m.answer(result_text, reply_markup=get_invite_result_keyboard())
 
@@ -1033,11 +1029,8 @@ async def manage_friend_callback(call: CallbackQuery):
     down = traffic.get("down", 0)
     total_used = up + down
 
-    sub_id = client.get("subId") or client.get("id") or email
-    friend_connect_url = f"{SUB_DOMAIN}/{sub_id}"
-
     kb = InlineKeyboardMarkup(inline_keyboard=[
-        [InlineKeyboardButton(text="Сайт для друга", url=friend_connect_url, icon_custom_emoji_id="5258073068852485953")],
+        [InlineKeyboardButton(text="Открыть ссылку", url=vpn_link, icon_custom_emoji_id="5258073068852485953")],
         [InlineKeyboardButton(text="Вернуться к списку", callback_data="btn_invited_list", icon_custom_emoji_id="5258236805890710909")]
     ])
 
@@ -1049,9 +1042,7 @@ async def manage_friend_callback(call: CallbackQuery):
         f"├ Скачано: <code>{format_bytes(down)}</code>\n"
         f"└ Всего: <code>{format_bytes(total_used)}</code>\n\n"
         f"Ссылка подписки:\n"
-        f"<blockquote><code>{vpn_link}</code></blockquote>\n"
-        f"Ссылка на сайт:\n"
-        f"<blockquote><code>{friend_connect_url}</code></blockquote>"
+        f"<blockquote><code>{vpn_link}</code></blockquote>"
     )
     await call.message.edit_text(manage_text, reply_markup=kb)
 

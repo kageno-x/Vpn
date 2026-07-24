@@ -39,9 +39,11 @@ services:
                 ln -s /root/cert/sub.$$DOMAIN /etc/nginx/ssl-sub
             fi
 
-            printf 'window.APP_CONFIG = {\n  SUPPORT_BOT_URL: \"%s\",\n  MAIN_BOT_URL: \"%s\"\n};\n' \"$${SUPPORT_BOT_URL}\" \"$${MAIN_BOT_URL}\" > /usr/share/nginx/html/config.js
+            printf 'window.APP_CONFIG = {\n  SUPPORT_BOT_URL: \"%s\",\n  MAIN_BOT_URL: \"%s\",\n  SUBSCRIPTION_DOMAIN: \"https://sub.%s\"\n};\n' \"$${SUPPORT_BOT_URL}\" \"$${MAIN_BOT_URL}\" \"$$DOMAIN\" > /usr/share/nginx/html/config.js
             exec /docker-entrypoint.sh nginx -g 'daemon off;'
             "
+        extra_hosts:
+            - "host.docker.internal:host-gateway"
         ports:
             - "80:80"
             - "443:443"
